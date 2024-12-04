@@ -73,7 +73,7 @@ const StudentRegistrationForm = () => {
         passportPhoto: file
       }));
 
-      // Create photo preview
+
       const reader = new FileReader();
       reader.onloadend = () => {
         setPhotoPreview(reader.result);
