@@ -2,11 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { Upload, User, Phone, MapPin, Book, Calendar, FileText } from 'lucide-react';
 
 const StudentRegistrationForm = () => {
+  
+
   const [formData, setFormData] = useState({
     surname: '',
     firstname: '',
     otherName: '',
-    birthday: '',
+    birthday_day:'',
+    birthday_month:'',
     gender: '',
     countryCode: '+234',
     phoneNumber: '',
@@ -17,11 +20,13 @@ const StudentRegistrationForm = () => {
     additionalInfo: '',
     passportPhoto: null
   });
-
+  
+  
 
   const [formValid, setFormValid] = useState(false);
   const [photoPreview, setPhotoPreview] = useState(null);
 
+  
  
   const countryCodes = [
     { code: '+234', country: 'Nigeria' },
@@ -32,11 +37,43 @@ const StudentRegistrationForm = () => {
     { code: '+61', country: 'Australia' }
   ];
 
+  const courses = [
+    { name: 'CYBER POLICY AND GOVERNANCE'},
+    { name: 'AUTOCAD' },
+    { name: 'DATA SCIENCE' },
+    { name: 'WEB DEVELOPMENT' },
+    { name: 'DIGITAL MARKETING' },
+    { name: 'GRAPHIC DESIGN' },
+    { name: 'WEB DESIGN' },
+    { name: 'CLOUD COMPUTING' },
+    { name: 'NETWORKING' },
+    { name: 'BASIC' },
+    { name: 'DATA ANALYTICS' },    
+    { name: 'SOFTWARE DEVELOPMENT' },   
+    { name: 'SOCIAL MEDIA MARKETING' },   
+    { name: 'CYBERSECURITY' },   
+    { name: 'ETHICAL HACKING' },   
+    { name: 'UI/UX DESIGN' },   
+    { name: 'DIGITAL MEDIA' },   
+    { name: 'BRANDING' },   
+    { name: 'PYTHON' }, 
+    { name: 'C#' },
+    { name: 'FULL STACK' },
+    { name: 'MOBILE DEVELOPMENT' },
+    { name: 'BUSINESS ANALYTICS' },
+    { name: 'SOLUTION ARCHITECT ASSOCIATE' },
+    { name: 'ARTIFICIAL INTELLIGENCE' },
+    { name: 'DEV OPS' },
+    { name: 'PROJECT MANAGEMENT' },
+
+  ]
+
   useEffect(() => {
     const isValid = 
       formData.surname.trim() !== '' &&
       formData.firstname.trim() !== '' &&
-      formData.birthday !== '' &&
+      formData.birthday_day !== '' &&
+      formData.birthday_month !== '' &&
       formData.gender !== '' &&
       /^\d{10}$/.test(formData.phoneNumber) && 
       formData.address.trim() !== '' &&
@@ -165,16 +202,45 @@ const StudentRegistrationForm = () => {
             </div>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div className="relative">
-              <Calendar className="absolute left-3 top-3 text-[#6699ff]" />
-              <input
-                type="date"
-                name="birthday"
-                value={formData.birthday}
-                onChange={handleChange}
-                className="w-full pl-10 pr-4 py-3 border-2 border-[#6699ff] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#6699ff]"
-                required
-              />
+          <div className="relative flex space-x-2">
+              <div className="relative flex-1">
+                <Calendar className="absolute left-3 top-3 text-[#6699ff]" />
+                <select
+                  name="birthday_month"
+                  value={formData.birthday_month}
+                  onChange={handleChange}
+                  className="w-full pl-10 pr-4 py-3 border-2 border-[#6699ff] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#6699ff]"
+                  required
+                >
+                  <option value="">Month</option>
+                  {[
+                    'January', 'February', 'March', 'April', 
+                    'May', 'June', 'July', 'August', 
+                    'September', 'October', 'November', 'December'
+                  ].map((month, index) => (
+                    <option key={month} value={String(index + 1).padStart(2, '0')}>
+                      {month}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              
+              <div className="relative flex-1">
+                <select
+                  name="birthday_day"
+                  value={formData.birthday_day}
+                  onChange={handleChange}
+                  className="w-full pr-4 py-3 border-2 border-[#6699ff] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#6699ff]"
+                  required
+                >
+                  <option value="">Day</option>
+                  {Array.from({length: 31}, (_, i) => i + 1).map((day) => (
+                    <option key={day} value={String(day).padStart(2, '0')}>
+                      {day}
+                    </option>
+                  ))}
+                </select>
+              </div>
             </div>
             <div className="relative">
               <select
@@ -237,15 +303,21 @@ const StudentRegistrationForm = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="relative">
               <Book className="absolute left-3 top-3 text-[#6699ff]" />
-              <input
-                type="text"
+              <select
                 name="courseOfStudy"
                 value={formData.courseOfStudy}
                 onChange={handleChange}
                 placeholder="Course of Study"
                 className="w-full pl-10 pr-4 py-3 border-2 border-[#6699ff] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#6699ff]"
                 required
-              />
+              >
+                 <option value="">Course</option>
+                 {courses.map((courses) => (
+                    <option key={courses.name} value={courses.name}>
+                      {courses.name}
+                    </option>
+                  ))}
+              </select>
             </div>
             <div className="relative">
               <input
